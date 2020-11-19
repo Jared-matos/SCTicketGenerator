@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Static Template</title>
   </head>
-  <body>
-    <h1>This is a static template, there is no bundler or bundling involved!</h1>
-  </body>
+
+  <style>
+    p {
+      font-family: calibri;
+      size: 11pt;
+    }
+    span {
+      font-family: calibri;
+      size: 11pt;
+    }
+    #updateText {
+      display: none;
+    }
+  </style>
+
+  <div id="form" class="form">
+    <span>Member ID</span>
+    <input type="text" id="mbrIDText" />
+    <br />
+    <span>Member's Full Name</span>
+    <input type="text" id="mbrNameText" />
+    <br />
+    <span>Member's DOB'</span>
+    <input type="text" id="mbrDOBText" />
+    <br />
+    <span>Provider ID</span>
+    <input type="text" id="provIDText" />
+    <br />
+    <span>Provider/site name</span>
+    <input type="text" id="provNamesText" />
+    <br />
+    <span>Provider/site address</span>
+    <input type="text" id="provADDText" />
+    <br />
+    <span>Was there an update?</span>
+    <input type="checkbox" id="updateRadio" onclick="toggleUpdateField()" />
+    <div id="updateText">
+      <span>What was updated and when?</span>
+      <input type="text" />
+    </div>
+    <br />
+    <span>DOS</span>
+    <input type="date" />
+    <br />
+    <span>Procedure Code</span>
+    <input type="text" />
+    <br />
+    <span>Decision Code</span>
+    <input type="text" />
+    <br />
+    <span>Description</span>
+    <input type="text" />
+    <br />
+    <span>Reason for Ticket</span>
+    <input type="text" />
+    <br />
+  </div>
 </html>
+
+<script type="text/javascript">
+  function toggleUpdateField() {
+    if (document.getElementById("updateText").style.display == "block") {
+      document.getElementById("updateText").style.display = "none";
+    } else {
+      document.getElementById("updateText").style.display = "block";
+    }
+  }
+</script>
