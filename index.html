@@ -68,6 +68,7 @@
   </div>
 </html>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 <script type="text/javascript">
   console.clear();
 
@@ -93,15 +94,21 @@
     var DCODE = document.getElementById("dCode").value;
     var DESC = document.getElementById("desc").value;
     var REAS = document.getElementById("reason").value;
-
     var outputText = "";
+
+    MBRDOB = moment(MBRDOB).format("MM/DD/YYYY");
+    DOS = moment(DOS).format("MM/DD/YYYY");
+
     outputText = outputText.concat(
       "Member Demos:",
       "\r\n",
+      "Member ID: ",
       MBRID,
       "\r\n",
+      "Name: ",
       MBRNAME,
       "\r\n",
+      "DOB: ",
       MBRDOB,
       "\r\n",
       "\r\n",
@@ -148,3 +155,4 @@
     console.log(outputText);
   }
 </script>
+<!--Code hosted on Github @ https://github.com/Jared-matos/SCTicketGenerator-->
