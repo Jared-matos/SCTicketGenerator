@@ -8,7 +8,7 @@
   </head>
 
   <style>
-    p {
+    .tableRow {
       display: table-row;
       font-family: calibri;
       size: 11pt;
@@ -23,6 +23,9 @@
       font-family: calibri;
       size: 11pt;
     }
+    textarea {
+      display: table-cell;
+    }
     #updateSpan {
       display: none;
     }
@@ -34,76 +37,82 @@
     }
   </style>
 
-  <form id="form">
-    <p>
+  <div>
+    <div class="tableRow">
       <span>Member ID</span>
       <input type="text" id="mbrIDText" value="xx12345x" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Member's Full Name</span>
       <input type="text" id="mbrNameText" value="John Smith" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Member's DOB'</span>
       <input type="date" id="mbrDOB" value="2001-01-01" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Provider ID</span>
       <input type="text" id="provIDText" value="123456789" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Provider Name</span>
       <input type="text" id="provNamesText" value="Hospital Center" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Provider Address</span>
       <input type="text" id="provADDText" value="1 Hospital Way" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Was there an update?</span>
       <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span id="updateSpan">What was updated and when?</span>
       <input type="text" id="updateText" value="Update happened" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>DOS</span>
       <input type="date" id="dos" value="2015-01-01" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Procedure Code</span>
       <input type="text" id="pCode" value="90834" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Decision Code</span>
       <input type="text" id="dCode" value="dservnotcert" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Description</span>
       <input type="text" id="desc" value="claim denied due to denial" />
-    </p>
-    <p>
+    </div>
+    <div class="tableRow">
       <span>Reason for Ticket</span>
       <input type="text" id="reason" value="wait on line" />
-    </p>
-    <p></p>
-    <p>Output</p>
-    <p>
-      <textarea type="text" id="output"></textarea>
-    </p>
-    <button onclick="copyClipboard()">Copy to Clipboard</button>
-  </form>
+    </div>
+    <div class="tableRow">
+      <span>Output</span>
+    </div>
+    <div class="tablerow">
+      <textarea readonly type="text" id="output" rows="15"></textarea>
+    </div>
+    <div class="tablerow">
+      <button onclick="copyClipboard()">Copy to Clipboard</button>
+    </div>
+  </div>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
   <script type="text/javascript">
+    console.clear();
     function toggleUpdateField() {
-      if (document.getElementById("updateSpan").style.display == "block") {
+      if (
+        document.getElementById("updateSpan").style.display == "inline-table"
+      ) {
         document.getElementById("updateSpan").style.display = "none";
         document.getElementById("updateText").style.display = "none";
       } else {
-        document.getElementById("updateSpan").style.display = "block";
-        document.getElementById("updateText").style.display = "block";
+        document.getElementById("updateSpan").style.display = "inline-table";
+        document.getElementById("updateText").style.display = "inline-table";
       }
     }
 
