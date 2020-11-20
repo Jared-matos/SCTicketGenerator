@@ -16,7 +16,7 @@
       font-family: calibri;
       size: 11pt;
     }
-    #updateText {
+    #updateDiv {
       display: none;
     }
   </style>
@@ -41,10 +41,10 @@
     <input type="text" id="provADDText" value="1 Hospital Way" />
     <br />
     <span>Was there an update?</span>
-    <input type="checkbox" id="updateRadio" onclick="toggleUpdateField()" />
-    <div id="updateText">
+    <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
+    <div id="updateDiv">
       <span>What was updated and when?</span>
-      <input type="text" id="updateText" />
+      <input type="text" id="updateText" value="Update happened" />
     </div>
     <br />
     <span>DOS</span>
@@ -70,13 +70,15 @@
 
 <script type="text/javascript">
   console.clear();
+
   function toggleUpdateField() {
-    if (document.getElementById("updateText").style.display == "block") {
-      document.getElementById("updateText").style.display = "none";
+    if (document.getElementById("updateDiv").style.display == "block") {
+      document.getElementById("updateDiv").style.display = "none";
     } else {
-      document.getElementById("updateText").style.display = "block";
+      document.getElementById("updateDiv").style.display = "block";
     }
   }
+
   function copyClipboard() {
     var MBRID = document.getElementById("mbrIDText").value;
     var MBRNAME = document.getElementById("mbrNameText").value;
@@ -84,8 +86,14 @@
     var PROVID = document.getElementById("provIDText").value;
     var PROVNAME = document.getElementById("provNamesText").value;
     var PROVADD = document.getElementById("provADDText").value;
-    var URadio = document.getElementById("updateRadio").value;
+    var URadio = document.getElementById("updateBox").checked;
     var UTEXT = document.getElementById("updateText").value;
+    var DOS = document.getElementById("dos").value;
+    var PROC = document.getElementById("pCode").value;
+    var DCODE = document.getElementById("dCode").value;
+    var DESC = document.getElementById("desc").value;
+    var REAS = document.getElementById("reason").value;
+
     var outputText = "";
     outputText = outputText.concat(
       "Member Demos:",
@@ -105,6 +113,25 @@
       " - ",
       PROVADD,
       "\r\n"
+    );
+    if (URadio == true) {
+      outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
+    }
+    outputText = outputText.concat(
+      "DOS: ",
+      DOS,
+      "\r\n",
+      "Procdedure Code: ",
+      PROC,
+      "\r\n",
+      "Decision Code: ",
+      DCODE,
+      "\r\n",
+      "Description: ",
+      DESC,
+      "\r\n",
+      "Reason for Ticket: ",
+      REAS
     );
     document.getElementById("output").value = outputText;
 
