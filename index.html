@@ -9,150 +9,178 @@
 
   <style>
     p {
+      display: table-row;
       font-family: calibri;
       size: 11pt;
     }
     span {
+      display: table-cell;
       font-family: calibri;
       size: 11pt;
     }
-    #updateDiv {
+    input {
+      display: table-cell;
+      font-family: calibri;
+      size: 11pt;
+    }
+    #updateSpan {
       display: none;
+    }
+    #updateText {
+      display: none;
+    }
+    form {
+      display: table;
     }
   </style>
 
-  <div id="form" class="form">
-    <span>Member ID</span>
-    <input type="text" id="mbrIDText" value="xx12345x" />
-    <br />
-    <span>Member's Full Name</span>
-    <input type="text" id="mbrNameText" value="John Smith" />
-    <br />
-    <span>Member's DOB'</span>
-    <input type="date" id="mbrDOB" value="2001-01-01" />
-    <br />
-    <span>Provider ID</span>
-    <input type="text" id="provIDText" value="123456789" />
-    <br />
-    <span>Provider/site name</span>
-    <input type="text" id="provNamesText" value="Hospital Center" />
-    <br />
-    <span>Provider/site address</span>
-    <input type="text" id="provADDText" value="1 Hospital Way" />
-    <br />
-    <span>Was there an update?</span>
-    <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
-    <div id="updateDiv">
-      <span>What was updated and when?</span>
+  <form id="form">
+    <p>
+      <span>Member ID</span>
+      <input type="text" id="mbrIDText" value="xx12345x" />
+    </p>
+    <p>
+      <span>Member's Full Name</span>
+      <input type="text" id="mbrNameText" value="John Smith" />
+    </p>
+    <p>
+      <span>Member's DOB'</span>
+      <input type="date" id="mbrDOB" value="2001-01-01" />
+    </p>
+    <p>
+      <span>Provider ID</span>
+      <input type="text" id="provIDText" value="123456789" />
+    </p>
+    <p>
+      <span>Provider Name</span>
+      <input type="text" id="provNamesText" value="Hospital Center" />
+    </p>
+    <p>
+      <span>Provider Address</span>
+      <input type="text" id="provADDText" value="1 Hospital Way" />
+    </p>
+    <p>
+      <span>Was there an update?</span>
+      <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
+    </p>
+    <p>
+      <span id="updateSpan">What was updated and when?</span>
       <input type="text" id="updateText" value="Update happened" />
-    </div>
-    <br />
-    <span>DOS</span>
-    <input type="date" id="dos" value="2015-01-01" />
-    <br />
-    <span>Procedure Code</span>
-    <input type="text" id="pCode" value="90834" />
-    <br />
-    <span>Decision Code</span>
-    <input type="text" id="dCode" value="dservnotcert" />
-    <br />
-    <span>Description</span>
-    <input type="text" id="desc" value="claim denied due to denial" />
-    <br />
-    <span>Reason for Ticket</span>
-    <input type="text" id="reason" value="wait on line" />
-    <br />
+    </p>
+    <p>
+      <span>DOS</span>
+      <input type="date" id="dos" value="2015-01-01" />
+    </p>
+    <p>
+      <span>Procedure Code</span>
+      <input type="text" id="pCode" value="90834" />
+    </p>
+    <p>
+      <span>Decision Code</span>
+      <input type="text" id="dCode" value="dservnotcert" />
+    </p>
+    <p>
+      <span>Description</span>
+      <input type="text" id="desc" value="claim denied due to denial" />
+    </p>
+    <p>
+      <span>Reason for Ticket</span>
+      <input type="text" id="reason" value="wait on line" />
+    </p>
+    <p></p>
     <p>Output</p>
-    <textarea type="text" id="output"></textarea>
+    <p>
+      <textarea type="text" id="output"></textarea>
+    </p>
     <button onclick="copyClipboard()">Copy to Clipboard</button>
-  </div>
+  </form>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+  <script type="text/javascript">
+    function toggleUpdateField() {
+      if (document.getElementById("updateSpan").style.display == "block") {
+        document.getElementById("updateSpan").style.display = "none";
+        document.getElementById("updateText").style.display = "none";
+      } else {
+        document.getElementById("updateSpan").style.display = "block";
+        document.getElementById("updateText").style.display = "block";
+      }
+    }
+
+    function copyClipboard() {
+      var MBRID = document.getElementById("mbrIDText").value;
+      var MBRNAME = document.getElementById("mbrNameText").value;
+      var MBRDOB = document.getElementById("mbrDOB").value;
+      var PROVID = document.getElementById("provIDText").value;
+      var PROVNAME = document.getElementById("provNamesText").value;
+      var PROVADD = document.getElementById("provADDText").value;
+      var URadio = document.getElementById("updateBox").checked;
+      var UTEXT = document.getElementById("updateText").value;
+      var DOS = document.getElementById("dos").value;
+      var PROC = document.getElementById("pCode").value;
+      var DCODE = document.getElementById("dCode").value;
+      var DESC = document.getElementById("desc").value;
+      var REAS = document.getElementById("reason").value;
+      var outputText = "";
+
+      MBRDOB = moment(MBRDOB).format("MM/DD/YYYY");
+      DOS = moment(DOS).format("MM/DD/YYYY");
+
+      outputText = outputText.concat(
+        "Member Demos:",
+        "\r\n",
+        "Member ID: ",
+        MBRID,
+        "\r\n",
+        "Name: ",
+        MBRNAME,
+        "\r\n",
+        "DOB: ",
+        MBRDOB,
+        "\r\n",
+        "\r\n",
+        "Provider Demos:",
+        "\r\n",
+        "Provider ID: ",
+        PROVID,
+        "\r\n",
+        PROVNAME,
+        " - ",
+        PROVADD,
+        "\r\n",
+        "\r\n"
+      );
+      if (URadio == true) {
+        outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
+      }
+      outputText = outputText.concat(
+        "DOS: ",
+        DOS,
+        "\r\n",
+        "Procdedure Code: ",
+        PROC,
+        "\r\n",
+        "Decision Code: ",
+        DCODE,
+        "\r\n",
+        "Description: ",
+        DESC,
+        "\r\n",
+        "Reason for Ticket: ",
+        REAS
+      );
+      document.getElementById("output").value = outputText;
+
+      var copyTextarea = document.getElementById("output");
+      copyTextarea.focus();
+      copyTextarea.select();
+      try {
+        document.execCommand("copy");
+      } catch (err) {
+        alert("Oops, unable to copy");
+      }
+      console.log(outputText);
+    }
+  </script>
+  <!--Code hosted on Github @ https://github.com/Jared-matos/SCTicketGenerator-->
 </html>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
-<script type="text/javascript">
-  console.clear();
-
-  function toggleUpdateField() {
-    if (document.getElementById("updateDiv").style.display == "block") {
-      document.getElementById("updateDiv").style.display = "none";
-    } else {
-      document.getElementById("updateDiv").style.display = "block";
-    }
-  }
-
-  function copyClipboard() {
-    var MBRID = document.getElementById("mbrIDText").value;
-    var MBRNAME = document.getElementById("mbrNameText").value;
-    var MBRDOB = document.getElementById("mbrDOB").value;
-    var PROVID = document.getElementById("provIDText").value;
-    var PROVNAME = document.getElementById("provNamesText").value;
-    var PROVADD = document.getElementById("provADDText").value;
-    var URadio = document.getElementById("updateBox").checked;
-    var UTEXT = document.getElementById("updateText").value;
-    var DOS = document.getElementById("dos").value;
-    var PROC = document.getElementById("pCode").value;
-    var DCODE = document.getElementById("dCode").value;
-    var DESC = document.getElementById("desc").value;
-    var REAS = document.getElementById("reason").value;
-    var outputText = "";
-
-    MBRDOB = moment(MBRDOB).format("MM/DD/YYYY");
-    DOS = moment(DOS).format("MM/DD/YYYY");
-
-    outputText = outputText.concat(
-      "Member Demos:",
-      "\r\n",
-      "Member ID: ",
-      MBRID,
-      "\r\n",
-      "Name: ",
-      MBRNAME,
-      "\r\n",
-      "DOB: ",
-      MBRDOB,
-      "\r\n",
-      "\r\n",
-      "Provider Demos:",
-      "\r\n",
-      "Provider ID: ",
-      PROVID,
-      "\r\n",
-      PROVNAME,
-      " - ",
-      PROVADD,
-      "\r\n",
-      "\r\n"
-    );
-    if (URadio == true) {
-      outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
-    }
-    outputText = outputText.concat(
-      "DOS: ",
-      DOS,
-      "\r\n",
-      "Procdedure Code: ",
-      PROC,
-      "\r\n",
-      "Decision Code: ",
-      DCODE,
-      "\r\n",
-      "Description: ",
-      DESC,
-      "\r\n",
-      "Reason for Ticket: ",
-      REAS
-    );
-    document.getElementById("output").value = outputText;
-
-    var copyTextarea = document.getElementById("output");
-    copyTextarea.focus();
-    copyTextarea.select();
-    try {
-      document.execCommand("copy");
-    } catch (err) {
-      alert("Oops, unable to copy");
-    }
-    console.log(outputText);
-  }
-</script>
-<!--Code hosted on Github @ https://github.com/Jared-matos/SCTicketGenerator-->
