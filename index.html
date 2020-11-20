@@ -16,7 +16,7 @@
       font-family: calibri;
       size: 11pt;
     }
-    #updateText {
+    #updateDiv {
       display: none;
     }
   </style>
@@ -29,54 +29,56 @@
     <input type="text" id="mbrNameText" value="John Smith" />
     <br />
     <span>Member's DOB'</span>
-    <input type="date" id="mbrDOB" />
+    <input type="date" id="mbrDOB" value="2001-01-01" />
     <br />
     <span>Provider ID</span>
-    <input type="text" id="provIDText" />
+    <input type="text" id="provIDText" value="123456789" />
     <br />
     <span>Provider/site name</span>
-    <input type="text" id="provNamesText" />
+    <input type="text" id="provNamesText" value="Hospital Center" />
     <br />
     <span>Provider/site address</span>
-    <input type="text" id="provADDText" />
+    <input type="text" id="provADDText" value="1 Hospital Way" />
     <br />
     <span>Was there an update?</span>
-    <input type="checkbox" id="updateRadio" onclick="toggleUpdateField()" />
-    <div id="updateText">
+    <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
+    <div id="updateDiv">
       <span>What was updated and when?</span>
-      <input type="text" id="updateText" />
+      <input type="text" id="updateText" value="Update happened" />
     </div>
     <br />
     <span>DOS</span>
-    <input type="date" id="dos" />
+    <input type="date" id="dos" value="2015-01-01" />
     <br />
     <span>Procedure Code</span>
-    <input type="text" id="pCode" />
+    <input type="text" id="pCode" value="90834" />
     <br />
     <span>Decision Code</span>
-    <input type="text" id="dCode" />
+    <input type="text" id="dCode" value="dservnotcert" />
     <br />
     <span>Description</span>
-    <input type="text" id="desc" />
+    <input type="text" id="desc" value="claim denied due to denial" />
     <br />
     <span>Reason for Ticket</span>
-    <input type="text" id="reason" />
+    <input type="text" id="reason" value="wait on line" />
     <br />
     <p>Output</p>
-    <input type="text" id="output" />
+    <textarea type="text" id="output"></textarea>
     <button onclick="copyClipboard()">Copy to Clipboard</button>
   </div>
 </html>
 
 <script type="text/javascript">
   console.clear();
+
   function toggleUpdateField() {
-    if (document.getElementById("updateText").style.display == "block") {
-      document.getElementById("updateText").style.display = "none";
+    if (document.getElementById("updateDiv").style.display == "block") {
+      document.getElementById("updateDiv").style.display = "none";
     } else {
-      document.getElementById("updateText").style.display = "block";
+      document.getElementById("updateDiv").style.display = "block";
     }
   }
+
   function copyClipboard() {
     var MBRID = document.getElementById("mbrIDText").value;
     var MBRNAME = document.getElementById("mbrNameText").value;
@@ -84,9 +86,63 @@
     var PROVID = document.getElementById("provIDText").value;
     var PROVNAME = document.getElementById("provNamesText").value;
     var PROVADD = document.getElementById("provADDText").value;
-    var URadio = document.getElementById("updateRadio").value;
+    var URadio = document.getElementById("updateBox").checked;
     var UTEXT = document.getElementById("updateText").value;
-    var outputText = MBRID.concat("/", MBRNAME, "/", MBRDOB, "/", PROVID, "/");
+    var DOS = document.getElementById("dos").value;
+    var PROC = document.getElementById("pCode").value;
+    var DCODE = document.getElementById("dCode").value;
+    var DESC = document.getElementById("desc").value;
+    var REAS = document.getElementById("reason").value;
+
+    var outputText = "";
+    outputText = outputText.concat(
+      "Member Demos:",
+      "\r\n",
+      MBRID,
+      "\r\n",
+      MBRNAME,
+      "\r\n",
+      MBRDOB,
+      "\r\n",
+      "Provider Demos:",
+      "\r\n",
+      "Provider ID: ",
+      PROVID,
+      "\r\n",
+      PROVNAME,
+      " - ",
+      PROVADD,
+      "\r\n"
+    );
+    if (URadio == true) {
+      outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
+    }
+    outputText = outputText.concat(
+      "DOS: ",
+      DOS,
+      "\r\n",
+      "Procdedure Code: ",
+      PROC,
+      "\r\n",
+      "Decision Code: ",
+      DCODE,
+      "\r\n",
+      "Description: ",
+      DESC,
+      "\r\n",
+      "Reason for Ticket: ",
+      REAS
+    );
+    document.getElementById("output").value = outputText;
+
+    var copyTextarea = document.getElementById("output");
+    copyTextarea.focus();
+    copyTextarea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      alert("Oops, unable to copy");
+    }
     console.log(outputText);
   }
 </script>
