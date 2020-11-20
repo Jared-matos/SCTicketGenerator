@@ -17,11 +17,13 @@
       display: table-cell;
       font-family: calibri;
       size: 11pt;
+      width: 200px;
     }
     input {
       display: table-cell;
       font-family: calibri;
       size: 11pt;
+      width: 100%;
     }
     textarea {
       display: table-cell;
@@ -32,12 +34,27 @@
     #updateText {
       display: none;
     }
-    form {
-      display: table;
+    .tDiv {
+      height: 425px;
+      width: 400px;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    #outputLabel {
+      vertical-align: top;
+    }
+    .copyButton {
+      left: 100%;
+    }
+    #oText {
+      width: 100%;
+      height: 100px;
+      resize: none;
     }
   </style>
 
-  <div>
+  <div class="tDiv">
     <div class="tableRow">
       <span>Member ID</span>
       <input type="text" id="mbrIDText" value="xx12345x" />
@@ -91,13 +108,13 @@
       <input type="text" id="reason" value="wait on line" />
     </div>
     <div class="tableRow">
-      <span>Output</span>
+      <span id="outputLabel">Output</span>
+      <textarea readonly type="text" id="oText"></textarea>
     </div>
-    <div class="tablerow">
-      <textarea readonly type="text" id="output" rows="15"></textarea>
-    </div>
-    <div class="tablerow">
-      <button onclick="copyClipboard()">Copy to Clipboard</button>
+    <div class="copyButton">
+      <button onclick="copyClipboard()">
+        Copy to Clipboard
+      </button>
     </div>
   </div>
 
@@ -105,14 +122,12 @@
   <script type="text/javascript">
     console.clear();
     function toggleUpdateField() {
-      if (
-        document.getElementById("updateSpan").style.display == "inline-table"
-      ) {
+      if (document.getElementById("updateSpan").style.display == "table-cell") {
         document.getElementById("updateSpan").style.display = "none";
         document.getElementById("updateText").style.display = "none";
       } else {
-        document.getElementById("updateSpan").style.display = "inline-table";
-        document.getElementById("updateText").style.display = "inline-table";
+        document.getElementById("updateSpan").style.display = "table-cell";
+        document.getElementById("updateText").style.display = "table-cell";
       }
     }
 
@@ -178,9 +193,9 @@
         "Reason for Ticket: ",
         REAS
       );
-      document.getElementById("output").value = outputText;
+      document.getElementById("oText").value = outputText;
 
-      var copyTextarea = document.getElementById("output");
+      var copyTextarea = document.getElementById("oText");
       copyTextarea.focus();
       copyTextarea.select();
       try {
