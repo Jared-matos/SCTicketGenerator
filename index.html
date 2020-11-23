@@ -7,25 +7,29 @@
     <title>Static Template</title>
   </head>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+
   <style>
     .tableRow {
       display: table-row;
       font-family: calibri;
       size: 11pt;
     }
-    span {
+    .text {
       display: table-cell;
       font-family: calibri;
       size: 11pt;
       width: 200px;
     }
-    input {
+    .iptext {
       display: table-cell;
       font-family: calibri;
       size: 11pt;
       width: 100%;
     }
-    textarea {
+    #oText {
       display: table-cell;
     }
     #updateSpan {
@@ -56,71 +60,75 @@
 
   <div class="tDiv">
     <div class="tableRow">
-      <span>Member ID</span>
-      <input type="text" id="mbrIDText" value="xx12345x" />
+      <span class="text">Member ID</span>
+      <input class="iptext" type="text" id="mbrIDText" value="xx12345x" />
     </div>
     <div class="tableRow">
-      <span>Member's Full Name</span>
-      <input type="text" id="mbrNameText" value="John Smith" />
+      <span class="text">Member's Full Name</span>
+      <input class="iptext" type="text" id="mbrNameText" value="John Smith" />
     </div>
     <div class="tableRow">
-      <span>Member's DOB'</span>
-      <input type="date" id="mbrDOB" value="2001-01-01" />
+      <span class="text">Member's DOB'</span>
+      <input class="iptext" type="text" id="mbrDOB" value="2001-01-01" />
     </div>
     <div class="tableRow">
-      <span>Provider ID</span>
-      <input type="text" id="provIDText" value="123456789" />
+      <span class="text">Provider ID/NPI/TaxID</span>
+      <input class="iptext" type="text" id="provIDText" value="123456789" />
     </div>
     <div class="tableRow">
-      <span>Provider Name</span>
-      <input type="text" id="provNamesText" value="Hospital Center" />
+      <span class="text">Provider Name</span>
+      <input class="iptext" type="text" id="provNamesText" value="Hospital Center"/>
     </div>
     <div class="tableRow">
-      <span>Provider Address</span>
-      <input type="text" id="provADDText" value="1 Hospital Way" />
+      <span class="text">Provider Address</span>
+      <input class="iptext" type="text" id="provADDText" value="1 Hospital Way"/>
     </div>
     <div class="tableRow">
-      <span>Was there an update?</span>
+      <span class="text">Was there an update?</span>
       <input type="checkbox" id="updateBox" onclick="toggleUpdateField()" />
     </div>
     <div class="tableRow">
-      <span id="updateSpan">What was updated and when?</span>
-      <input type="text" id="updateText" value="Update happened" />
+      <span id="updateSpan" class="text">What was updated and when?</span>
+      <input class="iptext" type="text" id="updateText" value="Update happened"/>
     </div>
     <div class="tableRow">
-      <span>DOS</span>
-      <input type="date" id="dos" value="2015-01-01" />
+      <span class="text">DOS</span>
+      <input class="iptext" type="text" id="dos" value="2015-01-01" />
     </div>
     <div class="tableRow">
-      <span>Procedure Code</span>
-      <input type="text" id="pCode" value="90834" />
+      <span class="text">Procedure Code</span>
+      <input class="iptext" type="text" id="pCode" value="90834" />
     </div>
     <div class="tableRow">
-      <span>Decision Code</span>
-      <input type="text" id="dCode" value="dservnotcert" />
+      <span class="text">Decision Code</span>
+      <input class="iptext" type="text" id="dCode" value="dservnotcert" />
     </div>
     <div class="tableRow">
-      <span>Description</span>
-      <input type="text" id="desc" value="claim denied due to denial" />
+      <span class="text">Description</span>
+      <input class="iptext" type="text" id="desc" value="claim denied due to denial"/>
     </div>
     <div class="tableRow">
-      <span>Reason for Ticket</span>
-      <input type="text" id="reason" value="wait on line" />
+      <span class="text">Reason for Ticket</span>
+      <input class="iptext" type="text" id="reason" value="wait on line" />
     </div>
     <div class="tableRow">
       <span id="outputLabel">Output</span>
       <textarea readonly type="text" id="oText"></textarea>
     </div>
     <div class="copyButton">
-      <button onclick="copyClipboard()">
+      <button type="button" onclick="copyClipboard()">
         Copy to Clipboard
       </button>
     </div>
   </div>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
+  
   <script type="text/javascript">
     console.clear();
+
+    var mbrDOB = flatpickr('#mbrDOB',{dateFormat: "m/d/Y", defaultDate: "today"});
+    var dos = flatpickr('#dos',{dateFormat: "m/d/Y", defaultDate: "today"});
+
     function toggleUpdateField() {
       if (document.getElementById("updateSpan").style.display == "table-cell") {
         document.getElementById("updateSpan").style.display = "none";
@@ -146,9 +154,6 @@
       var DESC = document.getElementById("desc").value;
       var REAS = document.getElementById("reason").value;
       var outputText = "";
-
-      MBRDOB = moment(MBRDOB).format("MM/DD/YYYY");
-      DOS = moment(DOS).format("MM/DD/YYYY");
 
       outputText = outputText.concat(
         "Member Demos:",
@@ -176,6 +181,8 @@
       );
       if (URadio == true) {
         outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
+      } else {
+        outputText= outputText.concat("No Update Occured", "\r\n");
       }
       outputText = outputText.concat(
         "DOS: ",
@@ -204,6 +211,7 @@
         alert("Oops, unable to copy");
       }
       console.log(outputText);
+      return false;
     }
   </script>
   <!--Code hosted on Github @ https://github.com/Jared-matos/SCTicketGenerator-->
