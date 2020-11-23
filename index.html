@@ -38,27 +38,23 @@
     #updateText {
       display: none;
     }
-    .tDiv {
-      height: 425px;
-      width: 400px;
+    #tDiv {
+      height: 300px;
+      width: 375px;
       border-radius: 5px;
       background-color: #f2f2f2;
       padding: 20px;
     }
-    #outputLabel {
-      vertical-align: top;
-    }
     .copyButton {
-      left: 100%;
+      display: table-cell;
     }
     #oText {
-      width: 100%;
-      height: 100px;
       resize: none;
+      display: none;  
     }
   </style>
 
-  <div class="tDiv">
+  <div id="tDiv">
     <div class="tableRow">
       <span class="text">Member ID</span>
       <input class="iptext" type="text" id="mbrIDText" value="xx12345x" />
@@ -72,7 +68,7 @@
       <input class="iptext" type="text" id="mbrDOB" value="2001-01-01" />
     </div>
     <div class="tableRow">
-      <span class="text">Provider ID/NPI/TaxID</span>
+      <span class="text">Provider ID</span>
       <input class="iptext" type="text" id="provIDText" value="123456789" />
     </div>
     <div class="tableRow">
@@ -111,14 +107,10 @@
       <span class="text">Reason for Ticket</span>
       <input class="iptext" type="text" id="reason" value="wait on line" />
     </div>
-    <div class="tableRow">
-      <span id="outputLabel">Output</span>
-      <textarea readonly type="text" id="oText"></textarea>
-    </div>
     <div class="copyButton">
-      <button type="button" onclick="copyClipboard()">
-        Copy to Clipboard
-      </button>
+      <textarea readonly type="text" id="oText"></textarea>
+      <button type="button" onclick="copyClipboard()">Copy to Clipboard</button>
+      <button type="button" onclick="clearAll()">Clear All</button>
     </div>
   </div>
 
@@ -126,17 +118,35 @@
   <script type="text/javascript">
     console.clear();
 
-    var mbrDOB = flatpickr('#mbrDOB',{dateFormat: "m/d/Y", defaultDate: "today"});
-    var dos = flatpickr('#dos',{dateFormat: "m/d/Y", defaultDate: "today"});
+    var mbrDOB = flatpickr('#mbrDOB',{dateFormat: "m/d/Y", defaultDate: ""});
+    var dos = flatpickr('#dos',{dateFormat: "m/d/Y", defaultDate: ""});
 
     function toggleUpdateField() {
       if (document.getElementById("updateSpan").style.display == "table-cell") {
         document.getElementById("updateSpan").style.display = "none";
         document.getElementById("updateText").style.display = "none";
+        document.getElementById("tDiv").style.height = "300px";
       } else {
         document.getElementById("updateSpan").style.display = "table-cell";
         document.getElementById("updateText").style.display = "table-cell";
+        document.getElementById("tDiv").style.height = "320px";
       }
+    }
+
+    function clearAll(){
+      document.getElementById("mbrIDText").value = "";
+      document.getElementById("mbrNameText").value = "";
+      document.getElementById("mbrDOB").value = "";
+      document.getElementById("provIDText").value = "";
+      document.getElementById("provNamesText").value = "";
+      document.getElementById("provADDText").value = "";
+      document.getElementById("updateBox").checked = false;
+      document.getElementById("updateText").value = "";
+      document.getElementById("dos").value = "";
+      document.getElementById("pCode").value = "";
+      document.getElementById("dCode").value = "";
+      document.getElementById("desc").value = "";
+      document.getElementById("reason").value = "";
     }
 
     function copyClipboard() {
@@ -155,30 +165,47 @@
       var REAS = document.getElementById("reason").value;
       var outputText = "";
 
+      
       outputText = outputText.concat(
         "Member Demos:",
-        "\r\n",
-        "Member ID: ",
+        "\r\n");
+      if(MBRID !== ""){
+        outputText = outputText.concat(
+        "ID: ",
         MBRID,
-        "\r\n",
+        "\r\n");
+      }
+      if(MBRNAME !== ""){
+        outputText = outputText.concat(
         "Name: ",
         MBRNAME,
-        "\r\n",
+        "\r\n");
+      }
+      if(MBRDOB !== ""){
+        outputText = outputText.concat(
         "DOB: ",
         MBRDOB,
-        "\r\n",
-        "\r\n",
-        "Provider Demos:",
-        "\r\n",
+        "\r\n");
+      }
+      outputText = outputText.concat("\r\n","Provider Demos: ","\r\n");
+
+      if(PROVID !== ""){
+        outputText = outputText.concat(
         "Provider ID: ",
         PROVID,
-        "\r\n",
-        PROVNAME,
-        " - ",
-        PROVADD,
-        "\r\n",
-        "\r\n"
-      );
+        "\r\n");
+      }
+      if(PROVNAME !== ""){
+        outputText = outputText.concat(PROVNAME);
+      }
+      if((PROVNAME !== "")&&(PROVADD !== "")){
+        outputText = outputText.concat(" - ");
+      }
+      if(PROVADD !== ""){
+        outputText = outputText.concat(PROVADD);
+      }
+      outputText = outputText.concat("\r\n","\r\n");
+        
       if (URadio == true) {
         outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
       } else {
@@ -200,6 +227,7 @@
         "Reason for Ticket: ",
         REAS
       );
+      document.getElementById("oText").style.display = "block";
       document.getElementById("oText").value = outputText;
 
       var copyTextarea = document.getElementById("oText");
@@ -211,6 +239,8 @@
         alert("Oops, unable to copy");
       }
       console.log(outputText);
+
+      document.getElementById("oText").style.display = "none";
       return false;
     }
   </script>

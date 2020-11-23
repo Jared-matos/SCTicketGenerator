@@ -1,0 +1,8 @@
+11/23/2020 11:44:45 AM
+Demographics
+Field	Value	
+Member ID	123456 (Fallon Health)
+Name	SMITH, JOHN A (DOB: 01/01/1960)
+Alternative IDs	123456789123
+
+Jessica Also asked to include support for pasting member Demographics
