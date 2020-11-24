@@ -8,6 +8,7 @@ Alternative IDs	123456789123
 11/24/2020 9:50:34 AM
 Specific Claim Line
 Field	Value	
+Member	SMITH, JOHN (AHP ID: 01234567901) - Valid
 Provider	1234567  Provider Name Goes Here
 Site	123456  Provider Name Goes Here – 500 Unicorn Park Drive
 Dates Of Service	01/01/2020 - 01/01/2020
@@ -16,3 +17,7 @@ DecisionCodes	DResubInfo
 
 
 Jessica Also asked to include support for pasting member Demographics
+
+jenn asks 
+copy and paste member data from claim page, 
+make member name, member id, provider name, provider id, dos, proc, reason mandatory
