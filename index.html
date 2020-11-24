@@ -123,17 +123,13 @@
     function parseData(){
       var pasteData = document.getElementById("pasteBox").value;
       var pasteDataARR = pasteData.split(/\r?\n/);
-      for(i=0;i<pasteDataARR.length;i++)
-      {
-        console.log(pasteDataARR[i]);
-      }
       if(pasteDataARR[1]=="Demographics"){
         document.getElementById("mbrIDText").value = pasteDataARR[3].slice(10);
         
-        var startDOB = 0;
-       // while (pasteDataARR[4].charAt(i) !== "("){startDOB++;}
+        var i = 0;
+        while (pasteDataARR[4].charAt(i) !== "("){i++;}
         document.getElementById("mbrNameText").value = pasteDataARR[4].slice(5,i);
-        //document.getElementById("mbrDOB").value = pasteDataARR[4].slice(i);
+        document.getElementById("mbrDOB").value = pasteDataARR[4].slice(i+6,i+16);
       } else {
         alert("Please copy and paste data directly from flexcare.");
       }
