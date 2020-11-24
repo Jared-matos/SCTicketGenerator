@@ -7,12 +7,8 @@
     <title>Static Template</title>
   </head>
 
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
   <style>
     .tableRow {
       display: table-row;
@@ -37,7 +33,7 @@
     #tDiv {
       height: 330px;
       width: 375px;
-      border-radius: 5px;
+      border-radius: 10px;
       background-color: #f2f2f2;
       padding: 20px;
     }
@@ -46,13 +42,13 @@
       resize: none;
       display: none;
     }
-    #pasteBox{ resize: none;}
+    #pasteBox { resize: none;}
   </style>
 
   <div id="tDiv">
     <div class="tableRow">
       <span class="text">Pastebox</span>
-      <textarea type="text" id="pasteBox" placeholder="Paste demographics here" onchange="parseData()"/></textarea>
+      <textarea type="text" id="pasteBox" placeholder="Paste demographics here" onchange="parseData()" /></textarea>
     </div>
     <div class="tableRow">
       <span class="text">Member ID</span>
@@ -75,8 +71,8 @@
       <input class="iptext" type="text" id="provNamesText" autocomplete="off" list="autocompleteOff"/>
     </div>
     <div class="tableRow">
-      <span class="text">Provider Address</span>
-      <input class="iptext" type="text" id="provADDText" autocomplete="off" list="autocompleteOff"/>
+      <span class="text">Site ID</span>
+      <input class="iptext" type="text" id="siteID" autocomplete="off" list="autocompleteOff"/>
     </div>
     <div class="tableRow">
       <span class="text">Was there an update?</span>
@@ -116,6 +112,7 @@
   <script type="text/javascript">
     //sets up the datepicker for DOB field
     var mbrDOB = flatpickr("#mbrDOB", { dateFormat: "m/d/Y", defaultDate: "" });
+
     // takes input from the pastebox field and places it in the proper field
     function parseData(){
       // get data from pastebox and split it by row 
@@ -136,6 +133,9 @@
           document.getElementById("provIDText").value = pasteDataARR[f].slice(9,i);
           document.getElementById("provNamesText").value = pasteDataARR[f].slice(i+2);
         } else if(pasteDataARR[f].search("Site")==0){
+          i=5;
+          while(pasteDataARR[f].charAt(i) !== " "){i++}
+          document.getElementById("siteID").value = pasteDataARR[f].slice(5,i);
         } else if(pasteDataARR[f].search("Dates Of Service")==0){
           document.getElementById("dos").value = pasteDataARR[f].slice(17);
         } else if(pasteDataARR[f].search("Procedure")==0){
@@ -154,6 +154,7 @@
       }
       document.getElementById("pasteBox").value = "";
     }
+
     //Adds or removes textbox for "was there an update?" checkbox
     function toggleUpdateField() {
       if (document.getElementById("updateBox").checked == false) {
@@ -166,6 +167,7 @@
         document.getElementById("tDiv").style.height = "350px";
       }
     }
+
     //Sets vaules of all fields to empty or false
     function clearAll() {
       document.getElementById("mbrIDText").value = "";
@@ -173,7 +175,7 @@
       document.getElementById("mbrDOB").value = "";
       document.getElementById("provIDText").value = "";
       document.getElementById("provNamesText").value = "";
-      document.getElementById("provADDText").value = "";
+      document.getElementById("siteID").value = "";
       document.getElementById("updateBox").checked = false;
       document.getElementById("updateText").value = "";
       document.getElementById("dos").value = "";
@@ -182,6 +184,7 @@
       document.getElementById("desc").value = "";
       document.getElementById("reason").value = "";
     }
+
     // Collects the information from the fields, combines them into an output string, and sends to the clipboard
     function copyClipboard() {
       // collecting information from all the fields & generating output and error texts
@@ -190,7 +193,7 @@
       var MBRDOB = document.getElementById("mbrDOB").value;
       var PROVID = document.getElementById("provIDText").value;
       var PROVNAME = document.getElementById("provNamesText").value;
-      var PROVADD = document.getElementById("provADDText").value;
+      var SITEID = document.getElementById("siteID").value;
       var URadio = document.getElementById("updateBox").checked;
       var UTEXT = document.getElementById("updateText").value;
       var DOS = document.getElementById("dos").value;
@@ -208,8 +211,8 @@
       outputText = outputText.concat("\r\n", "Provider Demos: ", "\r\n");
       if (PROVID !== "") { outputText = outputText.concat("Provider ID: ", PROVID, "\r\n");} else {errors=errors.concat("Provider ID, ");}
       if (PROVNAME !== "") { outputText = outputText.concat(PROVNAME);} else {errors=errors.concat("Provider/Facility Name, ");}
-      if (PROVNAME !== "" && PROVADD !== "") { outputText = outputText.concat(" - ");}
-      if (PROVADD !== "") { outputText = outputText.concat(PROVADD);}
+      if (PROVNAME !== "" && SITEID !== "") { outputText = outputText.concat(" - ");}
+      if (SITEID !== "") { outputText = outputText.concat(SITEID);}
       outputText = outputText.concat("\r\n", "\r\n");
       if (URadio == true) { outputText = outputText.concat("Update Occurred: ", UTEXT, "\r\n");
       } else { outputText = outputText.concat("No Update Occurred", "\r\n");}
@@ -218,13 +221,11 @@
       if (DCODE !== "") { outputText = outputText.concat("Decision Code: ", DCODE, "\r\n");}
       if (DESC !== "") { outputText = outputText.concat("Description: ", DESC, "\r\n");}
       if (REAS !== "") { outputText = outputText.concat("Reason for Ticket: ", REAS, "\r\n");} else {errors=errors.concat("Reason for Ticket");}
-
       // checking error text string to verify all needed information filled out 
       if (errors == ""){
         // displays the output text box momentarily and fills it with the output text
         document.getElementById("oText").style.display = "block";
         document.getElementById("oText").value = outputText;
-
         // select and copy the information in the output text box, then hides the information again
         var copyTextarea = document.getElementById("oText");
         copyTextarea.focus();
