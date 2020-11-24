@@ -7,7 +7,10 @@
     <title>Static Template</title>
   </head>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js"></script>
 
@@ -29,15 +32,9 @@
       size: 11pt;
       width: 100%;
     }
-    #oText {
-      display: table-cell;
-    }
-    #updateSpan {
-      display: none;
-    }
-    #updateText {
-      display: none;
-    }
+    #oText { display: table-cell;}
+    #updateSpan { display: none;}
+    #updateText { display: none;}
     #tDiv {
       height: 300px;
       width: 375px;
@@ -45,27 +42,29 @@
       background-color: #f2f2f2;
       padding: 20px;
     }
-    .copyButton {
-      display: table-cell;
-    }
+    .copyButton { display: table-cell;}
     #oText {
       resize: none;
-      display: none;  
+      display: none;
     }
   </style>
 
   <div id="tDiv">
     <div class="tableRow">
+      <span class="text">Pastebox</span>
+      <textarea type="text" id="pasteBox" onchange="parseData()"/></textarea>
+    </div>
+    <div class="tableRow">
       <span class="text">Member ID</span>
-      <input class="iptext" type="text" id="mbrIDText" value="xx12345x" />
+      <input class="iptext" type="text" id="mbrIDText" />
     </div>
     <div class="tableRow">
       <span class="text">Member's Full Name</span>
-      <input class="iptext" type="text" id="mbrNameText" value="John Smith" />
+      <input class="iptext" type="text" id="mbrNameText" />
     </div>
     <div class="tableRow">
       <span class="text">Member's DOB'</span>
-      <input class="iptext" type="text" id="mbrDOB" value="2001-01-01" />
+      <input class="iptext" type="text" id="mbrDOB" />
     </div>
     <div class="tableRow">
       <span class="text">Provider ID</span>
@@ -73,7 +72,7 @@
     </div>
     <div class="tableRow">
       <span class="text">Provider Name</span>
-      <input class="iptext" type="text" id="provNamesText" value="Hospital Center"/>
+      <input class="iptext" type="text" id="provNamesText" value="Hospital Center" />
     </div>
     <div class="tableRow">
       <span class="text">Provider Address</span>
@@ -85,11 +84,11 @@
     </div>
     <div class="tableRow">
       <span id="updateSpan" class="text">What was updated and when?</span>
-      <input class="iptext" type="text" id="updateText" value="Update happened"/>
+      <input class="iptext" type="text" id="updateText" value="Update happened" />
     </div>
     <div class="tableRow">
       <span class="text">DOS</span>
-      <input class="iptext" type="text" id="dos" value="2015-01-01" />
+      <input class="iptext" type="text" id="dos" value="1/1/15" />
     </div>
     <div class="tableRow">
       <span class="text">Procedure Code</span>
@@ -101,7 +100,7 @@
     </div>
     <div class="tableRow">
       <span class="text">Description</span>
-      <input class="iptext" type="text" id="desc" value="claim denied due to denial"/>
+      <input class="iptext" type="text" id="desc"value="claim denied due to denial"/>
     </div>
     <div class="tableRow">
       <span class="text">Reason for Ticket</span>
@@ -114,13 +113,33 @@
     </div>
   </div>
 
-  
   <script type="text/javascript">
     console.clear();
+    document.getElementById("pasteBox").value = "11/23/2020 11:44:45 AM \r\nDemographics\r\nField	Value\r\nMember ID	123456 (Fallon Health)\r\nName	SMITH, JOHN A (DOB: 01/01/1960)\r\nAlternative IDs	123456789123";
 
-    var mbrDOB = flatpickr('#mbrDOB',{dateFormat: "m/d/Y", defaultDate: ""});
-    var dos = flatpickr('#dos',{dateFormat: "m/d/Y", defaultDate: ""});
+    //sets up the datepicker for DOB field
+    var mbrDOB = flatpickr("#mbrDOB", { dateFormat: "m/d/Y", defaultDate: "" });
 
+    function parseData(){
+      var pasteData = document.getElementById("pasteBox").value;
+      var pasteDataARR = pasteData.split(/\r?\n/);
+      for(i=0;i<pasteDataARR.length;i++)
+      {
+        console.log(pasteDataARR[i]);
+      }
+      if(pasteDataARR[1]=="Demographics"){
+        document.getElementById("mbrIDText").value = pasteDataARR[3].slice(10);
+        
+        var startDOB = 0;
+       // while (pasteDataARR[4].charAt(i) !== "("){startDOB++;}
+        document.getElementById("mbrNameText").value = pasteDataARR[4].slice(5,i);
+        //document.getElementById("mbrDOB").value = pasteDataARR[4].slice(i);
+      } else {
+        alert("Please copy and paste data directly from flexcare.");
+      }
+    }
+
+    //Adds or removes textbox for "was there an update?" checkbox
     function toggleUpdateField() {
       if (document.getElementById("updateSpan").style.display == "table-cell") {
         document.getElementById("updateSpan").style.display = "none";
@@ -133,7 +152,8 @@
       }
     }
 
-    function clearAll(){
+    //Sets vaules of all fields to empty or false
+    function clearAll() {
       document.getElementById("mbrIDText").value = "";
       document.getElementById("mbrNameText").value = "";
       document.getElementById("mbrDOB").value = "";
@@ -149,7 +169,9 @@
       document.getElementById("reason").value = "";
     }
 
+    // Collects the information from the fields, combines them into an output string, and sends to the clipboard
     function copyClipboard() {
+      // collecting information from all the fields
       var MBRID = document.getElementById("mbrIDText").value;
       var MBRNAME = document.getElementById("mbrNameText").value;
       var MBRDOB = document.getElementById("mbrDOB").value;
@@ -165,83 +187,64 @@
       var REAS = document.getElementById("reason").value;
       var outputText = "";
 
-      
-      outputText = outputText.concat(
-        "Member Demos:",
-        "\r\n");
-      if(MBRID !== ""){
-        outputText = outputText.concat(
-        "ID: ",
-        MBRID,
-        "\r\n");
+      // combining all the data into a single string
+      outputText = outputText.concat("Member Demos:", "\r\n");
+      if (MBRID !== "") {
+        outputText = outputText.concat("ID: ", MBRID, "\r\n");
       }
-      if(MBRNAME !== ""){
-        outputText = outputText.concat(
-        "Name: ",
-        MBRNAME,
-        "\r\n");
+      if (MBRNAME !== "") {
+        outputText = outputText.concat("Name: ", MBRNAME, "\r\n");
       }
-      if(MBRDOB !== ""){
-        outputText = outputText.concat(
-        "DOB: ",
-        MBRDOB,
-        "\r\n");
+      if (MBRDOB !== "") {
+        outputText = outputText.concat("DOB: ", MBRDOB, "\r\n");
       }
-      outputText = outputText.concat("\r\n","Provider Demos: ","\r\n");
-
-      if(PROVID !== ""){
-        outputText = outputText.concat(
-        "Provider ID: ",
-        PROVID,
-        "\r\n");
+      outputText = outputText.concat("\r\n", "Provider Demos: ", "\r\n");
+      if (PROVID !== "") {
+        outputText = outputText.concat("Provider ID: ", PROVID, "\r\n");
       }
-      if(PROVNAME !== ""){
+      if (PROVNAME !== "") {
         outputText = outputText.concat(PROVNAME);
       }
-      if((PROVNAME !== "")&&(PROVADD !== "")){
+      if (PROVNAME !== "" && PROVADD !== "") {
         outputText = outputText.concat(" - ");
       }
-      if(PROVADD !== ""){
+      if (PROVADD !== "") {
         outputText = outputText.concat(PROVADD);
       }
-      outputText = outputText.concat("\r\n","\r\n");
-        
+      outputText = outputText.concat("\r\n", "\r\n");
       if (URadio == true) {
         outputText = outputText.concat("Update Occured: ", UTEXT, "\r\n");
       } else {
-        outputText= outputText.concat("No Update Occured", "\r\n");
+        outputText = outputText.concat("No Update Occured", "\r\n");
       }
-      outputText = outputText.concat(
-        "DOS: ",
-        DOS,
-        "\r\n",
-        "Procdedure Code: ",
-        PROC,
-        "\r\n",
-        "Decision Code: ",
-        DCODE,
-        "\r\n",
-        "Description: ",
-        DESC,
-        "\r\n",
-        "Reason for Ticket: ",
-        REAS
-      );
+      if (DOS !== "") {
+        outputText = outputText.concat("DOS: ", DOS, "\r\n");
+      }
+      if (PROC !== "") {
+        outputText = outputText.concat("Procedure Code: ", PROC, "\r\n");
+      }
+      if (DCODE !== "") {
+        outputText = outputText.concat("Decision Code: ", DCODE, "\r\n");
+      }
+      if (DESC !== "") {
+        outputText = outputText.concat("Description: ", DESC, "\r\n");
+      }
+      if (REAS !== "") {
+        outputText = outputText.concat("Reason for Ticket: ", REAS, "\r\n");
+      }
+
+      // displays the output text box momentarily and fills it with the output text
       document.getElementById("oText").style.display = "block";
       document.getElementById("oText").value = outputText;
 
+      // select and copy the information in the output text box, then hides the information again
       var copyTextarea = document.getElementById("oText");
       copyTextarea.focus();
       copyTextarea.select();
-      try {
-        document.execCommand("copy");
-      } catch (err) {
-        alert("Oops, unable to copy");
-      }
-      console.log(outputText);
-
+      try { document.execCommand("copy");
+      } catch (err) { alert("Oops, unable to copy");}
       document.getElementById("oText").style.display = "none";
-      return false;
+      console.log(outputText);
     }
   </script>
   <!--Code hosted on Github @ https://github.com/Jared-matos/SCTicketGenerator-->
