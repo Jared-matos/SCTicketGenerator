@@ -1,2 +1,1 @@
 # SCTicketGenerator
-Created with CodeSandbox

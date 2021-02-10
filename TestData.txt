@@ -14,10 +14,3 @@ Site	123456  Provider Name Goes Here – 500 Unicorn Park Drive
 Dates Of Service	01/01/2020 - 01/01/2020
 Procedure 	90837-95
 DecisionCodes	DResubInfo
-
-
-Jessica Also asked to include support for pasting member Demographics
-
-jenn asks 
-copy and paste member data from claim page, 
-make member name, member id, provider name, provider id, dos, proc, reason mandatory

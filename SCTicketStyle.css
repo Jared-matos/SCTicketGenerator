@@ -1,0 +1,52 @@
+.tableRow {
+    display: table-row;
+    font-family: calibri;
+    size: 12pt;
+}
+.text {
+    display: table-cell;
+    font-family: calibri;
+    size: 12pt;
+    width: 200px;
+}
+.iptext {
+    display: table-cell;
+    font-family: calibri;
+    size: 12pt;
+    width: 100%;
+}
+#oText { display: table-cell;}
+#updateSpan { display: none;}
+#updateText { display: none;}
+#tDiv {
+    height: 330px;
+    width: 375px;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+#oText {
+    resize: none;
+    display: none;
+}
+#pasteBox { resize: none;}
+
+.popup {
+    position: relative;
+    display: none;
+    bottom: 50px;
+    left: 40%;
+}
+.popup .popupText {
+    visibility: hidden;
+    width: 150px;
+    background-color: rgb(102, 102, 102);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .25s;
+}
