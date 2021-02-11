@@ -36,6 +36,8 @@
     display: none;
     bottom: 50px;
     left: 40%;
+    font-family: calibri;
+    size: 12pt;
 }
 .popup .popupText {
     visibility: hidden;

@@ -40,7 +40,7 @@ function parseData(){
       }
     }
   } else {
-    alert('Paste invalid. Please paste directly fron FlexCare.');
+    alert('Paste invalid. Please paste directly from FlexCare.');
   }
   document.getElementById("pasteBox").value = "";
 }
