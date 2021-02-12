@@ -63,14 +63,65 @@ function openNewWindow(){
     doc.close();
 }
 
-async function copiedSuccessMessage() {
-    document.getElementsByClassName("popup")[0].style.display = 'block';
-    document.getElementsByClassName("popupText")[0].style.opacity = 1;
-    document.getElementsByClassName('popupText')[0].style.visibility = 'visible';
-    await sleep(3000);
-    document.getElementsByClassName("popup")[0].style.display = 'none';
-    document.getElementsByClassName("popupText")[0].style.opacity = 0;
-    document.getElementsByClassName('popupText')[0].style.visibility = 'visible';
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { 
+    try { 
+        var info = gen[key](arg); 
+        var value = info.value; 
+    } catch (error) { 
+        reject(error); 
+        return; 
+    } 
+    if (info.done) { 
+        resolve(value);
+    } else { 
+        Promise.resolve(value).then(_next, _throw); 
+    } 
+}
+
+function _asyncToGenerator(fn) { 
+    return function () { 
+        var self = this, args = arguments; 
+        return new Promise(function (resolve, reject) { 
+            var gen = fn.apply(self, args); function _next(value) { 
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); 
+            } 
+            function _throw(err) { 
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); 
+            }
+            _next(undefined); 
+        }); 
+    }; 
+}
+
+function copiedSuccessMessage() {
+  return _copiedSuccessMessage.apply(this, arguments);
+}
+
+function _copiedSuccessMessage() {
+  _copiedSuccessMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            document.getElementsByClassName("popup")[0].style.display = 'block';
+            document.getElementsByClassName("popupText")[0].style.opacity = 1;
+            document.getElementsByClassName('popupText')[0].style.visibility = 'visible';
+            _context.next = 5;
+            return sleep(3000);
+
+          case 5:
+            document.getElementsByClassName("popup")[0].style.display = 'none';
+            document.getElementsByClassName("popupText")[0].style.opacity = 0;
+            document.getElementsByClassName('popupText')[0].style.visibility = 'visible';
+
+          case 8:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _copiedSuccessMessage.apply(this, arguments);
 }
 
 function sleep(ms) {
